@@ -1,0 +1,54 @@
+<project name="home" default="compile" basedir=".">
+    <property name="src" location="src/main/com/nixsolutions"/>
+    <property name="out" location="out/production"/>
+
+    <property name="test" location="src/test"/>
+    <property name="outtest" location="out/production"/>
+
+    <property name="dist" location="dist"/>
+
+    <path id="external.classpath">
+
+        <pathelement location="out/production/test/com/nixsolutions"/>
+        <pathelement location="main.com.nixsolutions"/>
+        <pathelement location="lib/interfaces-2.0.2.jar"/>
+        <pathelement location="lib/junit-4.10.jar"/>
+        <pathelement location="lib/log4j-1.2.17.jar"/>
+        <pathelement location="lib/slf4j-api-1.8.0-beta2.jar"/>
+        <pathelement location="lib/slf4j-log4j12-1.8.0-beta2.jar"/>
+        <pathelement location="src/main/test/ArrayCollectionImplTest.java"/>
+        <pathelement
+                location="study/src/main/test/JunitTesterImpl.java"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${out}"/>
+        <mkdir dir="${outtest}"/>
+    </target>
+
+    <target name="compile" depends="init"
+            description="compile the source">
+        <!-- Compile the Java code from ${src} into ${build} -->
+        <javac srcdir="${src}" destdir="${out}" includeantruntime="false">
+            <compilerarg value="-Xlint:unchecked"/>
+            <classpath refid="external.classpath"/>
+        </javac>
+    </target>
+
+    <target name="testcompile" depends="compile">
+        <javac srcdir="${test}" destdir="${outtest}" includeantruntime="false">
+            <compilerarg value="-Xlint:unchecked"/>
+            <classpath refid="external.classpath"/>
+        </javac>
+
+    </target>
+
+    <target name="clean">
+        <delete dir="out"/>
+    </target>
+
+    <target name="test" depends="testcompile">
+        <java fork="true" classname="HelloTest" dir="out/production/test/com/nixsolutions"/>
+    </target>
+
+</project>
